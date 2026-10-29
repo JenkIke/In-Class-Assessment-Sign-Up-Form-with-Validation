@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
@@ -12,7 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { BottomTabInset, MaxContentWidth, Spacing } from "@/constants/theme";
+import { MaxContentWidth, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { signUpSchema, type SignUpFormData } from "@/schemas/sign-up-schema";
 
@@ -35,7 +36,15 @@ export default function SignUpScreen() {
   });
 
   const onSubmit = (data: SignUpFormData) => {
-    console.log(data);
+    console.log({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+    });
+    router.push({
+      pathname: "/confirmation",
+      params: { firstName: data.firstName },
+    });
   };
 
   const inputStyle = [
@@ -227,7 +236,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: Spacing.four,
     paddingTop: Spacing.four,
-    paddingBottom: BottomTabInset + Spacing.four,
+    paddingBottom: Spacing.four,
     gap: Spacing.three,
   },
   title: {
