@@ -1,3 +1,5 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -5,16 +7,36 @@ import {
   ScrollView,
   StyleSheet,
   TextInput,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { BottomTabInset, MaxContentWidth, Spacing } from "@/constants/theme";
+import { useTheme } from "@/hooks/use-theme";
+import { signUpSchema, type SignUpFormData } from "@/schemas/sign-up-schema";
 
 export default function SignUpScreen() {
   const theme = useTheme();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = (data: SignUpFormData) => {
+    console.log(data);
+  };
 
   const inputStyle = [
     styles.input,
@@ -30,76 +52,156 @@ export default function SignUpScreen() {
       <SafeAreaView style={styles.safeArea}>
         <KeyboardAvoidingView
           style={styles.keyboardAvoider}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
           <ScrollView
             contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled">
+            keyboardShouldPersistTaps="handled"
+          >
             <ThemedText type="subtitle" style={styles.title}>
               Create Account
             </ThemedText>
 
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">First name</ThemedText>
-              <TextInput
-                style={inputStyle}
-                placeholder="Enter your first name"
-                placeholderTextColor={theme.textSecondary}
-                autoCapitalize="words"
-                autoComplete="given-name"
+              <Controller
+                control={control}
+                name="firstName"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[inputStyle, errors.firstName && styles.inputError]}
+                    placeholder="Enter your first name"
+                    placeholderTextColor={theme.textSecondary}
+                    autoCapitalize="words"
+                    autoComplete="given-name"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
               />
+              {errors.firstName && (
+                <ThemedText type="small" style={styles.errorText}>
+                  {errors.firstName.message}
+                </ThemedText>
+              )}
             </ThemedView>
 
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Last name</ThemedText>
-              <TextInput
-                style={inputStyle}
-                placeholder="Enter your last name"
-                placeholderTextColor={theme.textSecondary}
-                autoCapitalize="words"
-                autoComplete="family-name"
+              <Controller
+                control={control}
+                name="lastName"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[inputStyle, errors.lastName && styles.inputError]}
+                    placeholder="Enter your last name"
+                    placeholderTextColor={theme.textSecondary}
+                    autoCapitalize="words"
+                    autoComplete="family-name"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
               />
+              {errors.lastName && (
+                <ThemedText type="small" style={styles.errorText}>
+                  {errors.lastName.message}
+                </ThemedText>
+              )}
             </ThemedView>
 
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Email</ThemedText>
-              <TextInput
-                style={inputStyle}
-                placeholder="you@example.com"
-                placeholderTextColor={theme.textSecondary}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-                autoComplete="email"
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[inputStyle, errors.email && styles.inputError]}
+                    placeholder="you@example.com"
+                    placeholderTextColor={theme.textSecondary}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    autoComplete="email"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
               />
+              {errors.email && (
+                <ThemedText type="small" style={styles.errorText}>
+                  {errors.email.message}
+                </ThemedText>
+              )}
             </ThemedView>
 
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Password</ThemedText>
-              <TextInput
-                style={inputStyle}
-                placeholder="At least 8 characters"
-                placeholderTextColor={theme.textSecondary}
-                secureTextEntry
-                autoCapitalize="none"
-                autoComplete="new-password"
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[inputStyle, errors.password && styles.inputError]}
+                    placeholder="At least 8 characters"
+                    placeholderTextColor={theme.textSecondary}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    autoComplete="new-password"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
               />
+              {errors.password && (
+                <ThemedText type="small" style={styles.errorText}>
+                  {errors.password.message}
+                </ThemedText>
+              )}
             </ThemedView>
 
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Confirm password</ThemedText>
-              <TextInput
-                style={inputStyle}
-                placeholder="Re-enter your password"
-                placeholderTextColor={theme.textSecondary}
-                secureTextEntry
-                autoCapitalize="none"
-                autoComplete="new-password"
+              <Controller
+                control={control}
+                name="confirmPassword"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[
+                      inputStyle,
+                      errors.confirmPassword && styles.inputError,
+                    ]}
+                    placeholder="Re-enter your password"
+                    placeholderTextColor={theme.textSecondary}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    autoComplete="new-password"
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                  />
+                )}
               />
+              {errors.confirmPassword && (
+                <ThemedText type="small" style={styles.errorText}>
+                  {errors.confirmPassword.message}
+                </ThemedText>
+              )}
             </ThemedView>
 
             <Pressable
               accessibilityRole="button"
-              style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}>
+              onPress={() => handleSubmit(onSubmit)()}
+              style={({ pressed }) => [
+                styles.button,
+                pressed && styles.buttonPressed,
+              ]}
+            >
               <ThemedText style={styles.buttonText}>Sign Up</ThemedText>
             </Pressable>
           </ScrollView>
@@ -112,8 +214,8 @@ export default function SignUpScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
   safeArea: {
     flex: 1,
@@ -141,18 +243,24 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.two + Spacing.one,
     fontSize: 16,
   },
+  inputError: {
+    borderColor: "#cc0000",
+  },
+  errorText: {
+    color: "#cc0000",
+  },
   button: {
     marginTop: Spacing.two,
-    backgroundColor: '#3c87f7',
+    backgroundColor: "#0000cc",
     borderRadius: Spacing.two,
     paddingVertical: Spacing.three,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonPressed: {
     opacity: 0.7,
   },
   buttonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontWeight: 700,
   },
 });
