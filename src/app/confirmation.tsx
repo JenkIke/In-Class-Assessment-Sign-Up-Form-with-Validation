@@ -12,7 +12,6 @@ export default function ConfirmationScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      {/* Success message with the user's first name */}
       <ThemedText type="subtitle" style={styles.centered}>
         Account created for {firstName}!
       </ThemedText>

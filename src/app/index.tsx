@@ -18,7 +18,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Sign Up Screen logic, handles colour, form control, submitting the form, style, confirmation of name and email
-// Sign-up form screen
 export default function SignUpScreen() {
   const theme = useTheme();
 
@@ -61,11 +60,10 @@ export default function SignUpScreen() {
     },
   ];
 
-  // Layout, keeps content inside safe area, heading, IOS subtle annoyances, scrollable
+  // Layout, keeps content inside safe area, heading, IOS subtle annoyances, scrollable, form input
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        {/* Keeps the keyboard from covering the inputs and lets the form scroll */}
         <KeyboardAvoidingView
           style={styles.keyboardAvoider}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -78,7 +76,6 @@ export default function SignUpScreen() {
               Create Account
             </ThemedText>
 
-            {/* First name input, with its error message shown below if invalid */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">First name</ThemedText>
               <Controller
@@ -104,7 +101,6 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
-            {/* Last name input */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Last name</ThemedText>
               <Controller
@@ -130,7 +126,6 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
-            {/* Email input with the email keyboard */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Email</ThemedText>
               <Controller
@@ -158,7 +153,6 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
-            {/* Password input, text hidden */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Password</ThemedText>
               <Controller
@@ -185,7 +179,6 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
-            {/* Confirm password input, text hidden */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Confirm password</ThemedText>
               <Controller
@@ -215,7 +208,6 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
-            {/* Sign Up button: validates the form and submits if valid */}
             <Pressable
               accessibilityRole="button"
               onPress={() => handleSubmit(onSubmit)()}
