@@ -1,3 +1,9 @@
+// Import Statements
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { MaxContentWidth, Spacing } from "@/constants/theme";
+import { useTheme } from "@/hooks/use-theme";
+import { signUpSchema, type SignUpFormData } from "@/schemas/sign-up-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
@@ -11,15 +17,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { MaxContentWidth, Spacing } from "@/constants/theme";
-import { useTheme } from "@/hooks/use-theme";
-import { signUpSchema, type SignUpFormData } from "@/schemas/sign-up-schema";
-
+// Sign Up Screen logic, handles colour, form control, submitting the form, style, confirmation of name and email
+// Sign-up form screen
 export default function SignUpScreen() {
   const theme = useTheme();
 
+  // Set up react-hook-form and validate it with the Zod schema
   const {
     control,
     handleSubmit,
@@ -35,6 +38,7 @@ export default function SignUpScreen() {
     },
   });
 
+  // Runs only when the form is valid: log name and email, then go to confirmation
   const onSubmit = (data: SignUpFormData) => {
     console.log({
       firstName: data.firstName,
@@ -47,6 +51,7 @@ export default function SignUpScreen() {
     });
   };
 
+  // Shared input style using the current theme colours
   const inputStyle = [
     styles.input,
     {
@@ -56,9 +61,11 @@ export default function SignUpScreen() {
     },
   ];
 
+  // Layout, keeps content inside safe area, heading, IOS subtle annoyances, scrollable
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
+        {/* Keeps the keyboard from covering the inputs and lets the form scroll */}
         <KeyboardAvoidingView
           style={styles.keyboardAvoider}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -71,6 +78,7 @@ export default function SignUpScreen() {
               Create Account
             </ThemedText>
 
+            {/* First name input, with its error message shown below if invalid */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">First name</ThemedText>
               <Controller
@@ -96,6 +104,7 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
+            {/* Last name input */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Last name</ThemedText>
               <Controller
@@ -121,6 +130,7 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
+            {/* Email input with the email keyboard */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Email</ThemedText>
               <Controller
@@ -148,6 +158,7 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
+            {/* Password input, text hidden */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Password</ThemedText>
               <Controller
@@ -174,6 +185,7 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
+            {/* Confirm password input, text hidden */}
             <ThemedView style={styles.field}>
               <ThemedText type="smallBold">Confirm password</ThemedText>
               <Controller
@@ -203,6 +215,7 @@ export default function SignUpScreen() {
               )}
             </ThemedView>
 
+            {/* Sign Up button: validates the form and submits if valid */}
             <Pressable
               accessibilityRole="button"
               onPress={() => handleSubmit(onSubmit)()}
@@ -252,12 +265,14 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.two + Spacing.one,
     fontSize: 16,
   },
+  // Red border and text for invalid fields
   inputError: {
     borderColor: "#cc0000",
   },
   errorText: {
     color: "#cc0000",
   },
+  // Sign Up button styles
   button: {
     marginTop: Spacing.two,
     backgroundColor: "#0000cc",
