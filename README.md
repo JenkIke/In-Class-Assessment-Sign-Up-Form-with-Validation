@@ -1,6 +1,6 @@
 # Sign-Up Form
 
-A mobile sign-up form built with Expo for CPRG 303. The form validates what the user types, logs the submitted details to the console, and opens a confirmation screen. No accounts are created and no data is stored.
+A mobile sign-up form built with Expo for the CPRG 303 in class activity. The form is used to validate what the user entries, logs the submitted details to the console, and opens a confirmation screen. No real accounts are created and no data is stored.
 
 ## Tech stack
 
@@ -20,13 +20,13 @@ Then open the app in Expo Go, an Android emulator, an iOS simulator, or a web br
 
 ## Validation rules
 
-| Field            | Rules                                                              |
-| ---------------- | ------------------------------------------------------------------ |
-| First name       | Required, 2–30 characters, surrounding spaces trimmed              |
-| Last name        | Required, 2–30 characters, surrounding spaces trimmed              |
-| Email            | Required, valid email format, surrounding spaces trimmed           |
-| Password         | Required, at least 8 characters                                    |
-| Confirm password | Required, must match password                                      |
+| Field            | Rules                                                    |
+| ---------------- | -------------------------------------------------------- |
+| First name       | Required, 2–30 characters, surrounding spaces trimmed    |
+| Last name        | Required, 2–30 characters, surrounding spaces trimmed    |
+| Email            | Required, valid email format, surrounding spaces trimmed |
+| Password         | Required, at least 8 characters                          |
+| Confirm password | Required, must match password                            |
 
 Each error appears under its field, and the field's border turns red. On submit, focus moves to the first invalid field. The "Passwords do not match" check runs as soon as both password fields are valid, even if other fields still have errors.
 
