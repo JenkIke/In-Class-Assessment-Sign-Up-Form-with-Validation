@@ -1,56 +1,56 @@
-# Welcome to your Expo app 👋
+# Sign-Up Form
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile sign-up form built with Expo for CPRG 303. The form validates what the user types, logs the submitted details to the console, and opens a confirmation screen. No accounts are created and no data is stored.
 
-## Get started
+## Tech stack
 
-1. Install dependencies
+- [Expo](https://expo.dev) (SDK 58) with TypeScript
+- [Expo Router](https://docs.expo.dev/router/introduction/) for navigation
+- [React Hook Form](https://react-hook-form.com) for form state
+- [Zod](https://zod.dev) for validation, connected through `@hookform/resolvers/zod`
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Running the app
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Then open the app in Expo Go, an Android emulator, an iOS simulator, or a web browser from the menu in the terminal.
 
-### Other setup steps
+## Validation rules
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+| Field            | Rules                                                              |
+| ---------------- | ------------------------------------------------------------------ |
+| First name       | Required, 2–30 characters, surrounding spaces trimmed              |
+| Last name        | Required, 2–30 characters, surrounding spaces trimmed              |
+| Email            | Required, valid email format, surrounding spaces trimmed           |
+| Password         | Required, at least 8 characters                                    |
+| Confirm password | Required, must match password                                      |
 
-## Learn more
+Each error appears under its field, and the field's border turns red. On submit, focus moves to the first invalid field. The "Passwords do not match" check runs as soon as both password fields are valid, even if other fields still have errors.
 
-To learn more about developing your project with Expo, look at the following resources:
+## How submitting works
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+1. The user taps **Sign Up**, and the form is checked against the Zod schema.
+2. If everything is valid, the first name, last name and email are logged to the console.
+3. The app replaces the form with the confirmation screen, which shows "Account created for {first name}!". A **Back to sign up** button returns to a fresh, empty form.
 
-## Join the community
+If the confirmation screen is opened without a name (for example, by a web refresh or a deep link), it redirects back to the form.
 
-Join our community of developers creating universal apps.
+## Project structure
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+src/
+  app/                  Screens (each file is a route)
+    _layout.tsx         Stack navigator
+    index.tsx           Sign-up form
+    confirmation.tsx    Confirmation screen
+  components/
+    form-field.tsx      Reusable labelled input with error message
+    themed-text.tsx     Text that follows light/dark theme
+    themed-view.tsx     View that follows light/dark theme
+  constants/theme.ts    Colours (light and dark) and spacing
+  schemas/
+    sign-up-schema.ts   Zod validation rules
+```
